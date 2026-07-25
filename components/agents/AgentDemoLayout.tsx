@@ -10,8 +10,6 @@ import { WorkflowPipeline } from "./WorkflowPipeline";
 import { ExecutionLog } from "./ExecutionLog";
 import { NodeDetailsModal } from "./NodeDetailsModal";
 import { AgentOutputPanel } from "./AgentOutputPanel";
-import { runSimulationSync } from "@/lib/agent-simulator/engine";
-import { executeWebhookIfAvailable } from "@/lib/webhooks/client";
 
 interface AgentDemoLayoutProps {
   agent: AgentConfig;
@@ -48,55 +46,79 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
     handleReset();
     setIsRunning(true);
 
-    // Check live webhook first
-    const webhookResponse = await executeWebhookIfAvailable(agent, { prompt: promptText, formValues });
-    const response = webhookResponse || runSimulationSync(agent, promptText, formValues);
+    try {
+      // Call real backend API route endpoint
+      const apiResponse = await fetch(`/api/agents/${agent.slug}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: promptText, formValues }),
+      });
 
-    // Step-by-step animation simulation (4-8 seconds total duration)
-    const executedNodes = agent.workflowNodes.filter((n) =>
-      response.nodeExecutions.some((e) => e.nodeId === n.id && e.status === "success")
-    );
+      if (!apiResponse.ok) {
+        throw new Error(`Server returned HTTP ${apiResponse.status}`);
+      }
 
-    const stepDelay = Math.max(300, Math.floor(4500 / Math.max(1, executedNodes.length)));
+      const response: AgentExecutionResponse = await apiResponse.json();
 
-    for (let i = 0; i < executedNodes.length; i++) {
-      const currentNode = executedNodes[i];
-      setActiveNodeId(currentNode.id);
+      // Step-by-step visual workflow node animation
+      const executedNodes = agent.workflowNodes.filter((n) =>
+        response.nodeExecutions.some((e) => e.nodeId === n.id && e.status === "success")
+      );
 
-      // Append log entry
-      const matchingLog = response.logs[i] || {
-        timestamp: new Date().toTimeString().split(" ")[0],
-        nodeId: currentNode.id,
-        nodeName: currentNode.label,
-        event: `Executing ${currentNode.label} step...`,
-        status: "success" as const,
-        duration: 250,
-      };
+      const stepDelay = Math.max(250, Math.floor(3500 / Math.max(1, executedNodes.length)));
 
-      setLogs((prev) => [...prev, matchingLog]);
+      for (let i = 0; i < executedNodes.length; i++) {
+        const currentNode = executedNodes[i];
+        setActiveNodeId(currentNode.id);
 
-      await new Promise((resolve) => setTimeout(resolve, stepDelay));
-      setCompletedNodeIds((prev) => [...prev, currentNode.id]);
+        const matchingLog = response.logs[i] || {
+          timestamp: new Date().toTimeString().split(" ")[0],
+          nodeId: currentNode.id,
+          nodeName: currentNode.label,
+          event: `Executing ${currentNode.label} node...`,
+          status: "success" as const,
+          duration: 250,
+        };
+
+        setLogs((prev) => [...prev, matchingLog]);
+        await new Promise((resolve) => setTimeout(resolve, stepDelay));
+        setCompletedNodeIds((prev) => [...prev, currentNode.id]);
+      }
+
+      setActiveNodeId(undefined);
+      setSkippedNodeIds(
+        response.nodeExecutions
+          .filter((e) => e.status === "skipped")
+          .map((e) => e.nodeId)
+      );
+      setExecutionResult(response);
+    } catch (err) {
+      console.error("API execution error:", err);
+      // Fallback display if network issue occurs
+      setLogs((prev) => [
+        ...prev,
+        {
+          timestamp: new Date().toTimeString().split(" ")[0],
+          nodeId: "err",
+          nodeName: "Error Handler",
+          event: `Execution error: ${err instanceof Error ? err.message : "Unknown error"}`,
+          status: "failed",
+          duration: 0,
+        },
+      ]);
+    } finally {
+      setIsRunning(false);
     }
-
-    setActiveNodeId(undefined);
-    setSkippedNodeIds(
-      response.nodeExecutions
-        .filter((e) => e.status === "skipped")
-        .map((e) => e.nodeId)
-    );
-    setExecutionResult(response);
-    setIsRunning(false);
   };
 
   return (
     <div className="min-h-screen bg-[#0B0F17] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
-      {/* Top Header Navigation & Agent Switcher */}
+      {/* Navigation & Switcher */}
       <AgentSwitcher currentSlug={agent.slug} />
 
-      {/* Main Content Area */}
+      {/* Main Container */}
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 py-6 sm:py-8 space-y-8">
-        {/* Agent Header (Title, Subtitle, Live Status & Predefined Prompts) */}
+        {/* Agent Header */}
         <AgentHeader
           title={agent.title}
           subtitle={agent.subtitle}
@@ -105,7 +127,7 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
           onSelectPrompt={handleSelectPrompt}
         />
 
-        {/* Input Panel (Form, Chat, Upload or Hybrid) */}
+        {/* Input Panel */}
         <AgentInputPanel
           agent={agent}
           onSubmit={handleExecuteDemo}
@@ -114,7 +136,7 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
           selectedPrompt={selectedPrompt}
         />
 
-        {/* Interactive React Flow Workflow Pipeline Canvas */}
+        {/* React Flow Visual Canvas */}
         <WorkflowPipeline
           workflowNodes={agent.workflowNodes}
           activeNodeId={activeNodeId}
@@ -124,10 +146,10 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
           onSelectNode={(node) => setSelectedNodeDetails(node)}
         />
 
-        {/* Execution Log Stream */}
+        {/* Streaming Execution Audit Log */}
         <ExecutionLog logs={logs} />
 
-        {/* Execution Output Panel & Generated Artifact */}
+        {/* Real Server Execution Output & Artifact Preview */}
         <AgentOutputPanel
           outputPayload={executionResult?.output}
           metrics={executionResult?.metrics}
@@ -139,7 +161,7 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
         />
       </main>
 
-      {/* Node Details Modal Drawer */}
+      {/* Node Details Drawer */}
       <NodeDetailsModal
         node={selectedNodeDetails}
         onClose={() => setSelectedNodeDetails(null)}
@@ -152,7 +174,7 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
             © 2026 <span className="font-semibold text-slate-300">Elixr Co.</span> — Multi-Agent AI Automation Suite
           </div>
           <div className="font-mono text-[11px] text-slate-600">
-            Powered by Next.js, React Flow & Gemini 1.5 Pro
+            100% Real Server Backend Integration | Next.js API Routes
           </div>
         </div>
       </footer>
