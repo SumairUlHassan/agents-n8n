@@ -9,6 +9,7 @@ import {
   useEdgesState,
   Node,
   Edge,
+  MarkerType,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { WorkflowNodeConfig } from "@/types/workflows";
@@ -37,16 +38,20 @@ export function WorkflowPipeline({
   onSelectNode,
 }: WorkflowPipelineProps) {
   const initialNodes: Node[] = useMemo(() => {
-    return workflowNodes.map((n) => {
+    return workflowNodes.map((n, index) => {
       let status: "idle" | "active" | "success" | "skipped" = "idle";
       if (n.id === activeNodeId) status = "active";
       else if (completedNodeIds.includes(n.id)) status = "success";
       else if (skippedNodeIds.includes(n.id)) status = "skipped";
 
+      // Ensure crisp 50px horizontal gap between 150px n8n nodes
+      const posX = n.position.x > 0 ? n.position.x * 1.25 : index * 200 + 40;
+      const posY = n.position.y;
+
       return {
         id: n.id,
         type: "workflowNode",
-        position: n.position,
+        position: { x: posX, y: posY },
         data: {
           ...n,
           status,
@@ -68,10 +73,17 @@ export function WorkflowPipeline({
           id: `e-${node.id}-${targetId}`,
           source: node.id,
           target: targetId,
+          type: "smoothstep",
           animated: isExecuted || node.id === activeNodeId,
           style: {
             stroke: isExecuted ? "#1f7ae0" : "#c3ccd6",
-            strokeWidth: isExecuted ? 2.5 : 1.6,
+            strokeWidth: isExecuted ? 2.5 : 2,
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: isExecuted ? "#1f7ae0" : "#c3ccd6",
+            width: 14,
+            height: 14,
           },
         });
       });

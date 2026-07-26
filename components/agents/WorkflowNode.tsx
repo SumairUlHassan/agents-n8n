@@ -43,15 +43,15 @@ export function WorkflowNode({ data }: WorkflowNodeProps) {
           </span>
         );
       case "success":
-        return <CheckCircle2 className="h-4 w-4 text-[#12946a]" />;
+        return <CheckCircle2 className="h-3.5 w-3.5 text-[#12946a]" />;
       case "warning":
-        return <AlertCircle className="h-4 w-4 text-amber-500" />;
+        return <AlertCircle className="h-3.5 w-3.5 text-amber-500" />;
       case "failed":
-        return <XCircle className="h-4 w-4 text-rose-500" />;
+        return <XCircle className="h-3.5 w-3.5 text-rose-500" />;
       case "skipped":
-        return <Circle className="h-3 w-3 text-slate-400 fill-slate-300" />;
+        return <Circle className="h-2.5 w-2.5 text-slate-400 fill-slate-300" />;
       default:
-        return <Circle className="h-3 w-3 text-slate-300" />;
+        return <Circle className="h-2.5 w-2.5 text-slate-300" />;
     }
   };
 
@@ -75,7 +75,7 @@ export function WorkflowNode({ data }: WorkflowNodeProps) {
   const getStatusStyles = () => {
     switch (status) {
       case "active":
-        return "border-[#1f7ae0] ring-2 ring-[#1f7ae0]/40 shadow-[0_0_16px_rgba(31,122,224,0.25)] bg-white";
+        return "border-[#1f7ae0] ring-2 ring-[#1f7ae0]/40 shadow-[0_0_16px_rgba(31,122,224,0.3)] bg-white";
       case "success":
         return "border-[#12946a] bg-[#e8fbf3]";
       case "warning":
@@ -85,28 +85,28 @@ export function WorkflowNode({ data }: WorkflowNodeProps) {
       case "skipped":
         return "border-slate-200 bg-slate-50 opacity-60";
       default:
-        return "border-[#dde3ea] bg-white hover:border-slate-300";
+        return "border-[#dde3ea] bg-white hover:border-[#1f7ae0]/60 hover:shadow-md";
     }
   };
 
   return (
     <div
       onClick={() => data.onSelectNode && data.onSelectNode(data)}
-      className={`group relative min-w-[160px] max-w-[210px] rounded-lg border p-2.5 shadow-sm transition-all cursor-pointer ${getKindLeftBorder()} ${getStatusStyles()}`}
+      className={`group relative w-[150px] min-h-[46px] rounded-[10px] border p-2 shadow-sm transition-all cursor-pointer select-none ${getKindLeftBorder()} ${getStatusStyles()}`}
     >
-      {/* React Flow Handles */}
+      {/* Real n8n Left Connector Handle */}
       <Handle
         type="target"
         position={Position.Left}
-        className="!bg-[#94a3b8] !w-2.5 !h-2.5 !border-white"
+        className="!w-3 !h-3 !bg-white !border-2 !border-[#94a3b8] !-left-1.5 hover:!border-[#1f7ae0] transition-all shadow-sm"
       />
 
-      <div className="flex items-start justify-between gap-1.5">
-        <div className="flex items-center space-x-1.5">
-          <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-slate-100 border border-slate-200">
+      <div className="flex items-start justify-between gap-1">
+        <div className="flex items-center space-x-1.5 overflow-hidden">
+          <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-slate-100/90 border border-slate-200">
             {getTypeIcon()}
           </div>
-          <div className="font-semibold text-xs text-[#1a2530] truncate max-w-[110px]">
+          <div className="font-semibold text-[11.5px] text-[#1a2530] leading-tight truncate">
             {data.label}
           </div>
         </div>
@@ -114,8 +114,8 @@ export function WorkflowNode({ data }: WorkflowNodeProps) {
         <div className="shrink-0 mt-0.5">{getStatusBadge()}</div>
       </div>
 
-      <div className="mt-1.5 flex items-center justify-between border-t border-slate-200/80 pt-1.5 text-[10px]">
-        <span className="font-mono text-[#667080] truncate max-w-[110px]">
+      <div className="mt-1 flex items-center justify-between border-t border-slate-200/80 pt-1 text-[9.5px]">
+        <span className="font-mono text-[#667080] truncate max-w-[95px]">
           {data.modelOrTool}
         </span>
         <span className="uppercase text-[#667080] font-mono text-[9px] font-semibold">
@@ -123,10 +123,11 @@ export function WorkflowNode({ data }: WorkflowNodeProps) {
         </span>
       </div>
 
+      {/* Real n8n Right Connector Handle */}
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-[#94a3b8] !w-2.5 !h-2.5 !border-white"
+        className="!w-3 !h-3 !bg-white !border-2 !border-[#94a3b8] !-right-1.5 hover:!border-[#1f7ae0] transition-all shadow-sm"
       />
     </div>
   );
