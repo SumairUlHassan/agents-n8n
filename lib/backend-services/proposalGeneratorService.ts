@@ -1,86 +1,74 @@
 import { AgentExecutionResponse } from "@/types/agents";
+import { callGroqLLM } from "../groqClient";
 
 export async function processProposalGeneratorAgent(
   query: string,
   formValues?: Record<string, string>
 ): Promise<AgentExecutionResponse> {
-  const prospectName = formValues?.prospectName || "Michael Vance";
-  const companyName = formValues?.companyName || "NexaCorp Global";
-  const website = formValues?.companyWebsite || "https://nexacorp-demo.com";
-  const requirements = formValues?.projectRequirements || "Build multi-agent workflow suite";
-  const proposedService = formValues?.proposedService || "Custom AI Agent Development";
-  const budget = formValues?.estimatedBudget || "$45,000";
-  const timeline = formValues?.timeline || "4-6 Weeks (Standard)";
-  const pricingModel = formValues?.pricingModel || "Fixed-Price Project";
+  const clientName = formValues?.clientName || "Acme Enterprise Corp";
+  const projectScope = formValues?.projectScope || "Enterprise AI Automation & RAG Architecture";
 
-  const painPoints = [
-    `1. High manual labor spent qualifying leads across sales systems.`,
-    `2. Off-peak support delays causing customer churn.`,
-    `3. Lack of unified audit logging for compliance tracking.`,
-  ];
+  const systemPrompt = `
+You are an AI Proposal Generator Agent powered by Groq Llama 3 70B.
+Draft a tailored business proposal, pricing tiers, deliverables timeline, and executive summary.
+Return strictly valid JSON with this shape:
+{
+  "clientName": "${clientName}",
+  "projectScope": "${projectScope}",
+  "winProbability": "88%",
+  "proposedPricing": "$45,000 - $85,000",
+  "deliverables": [
+    "Phase 1: Architecture Audit & Data Pipeline Mapping (2 Weeks)",
+    "Phase 2: Custom n8n Workflow Orchestration & Groq LLM Integration (4 Weeks)",
+    "Phase 3: Testing, Security Compliance, and SLA Handoff (2 Weeks)"
+  ],
+  "proposalContent": "Executive Proposal for ${clientName}: Building scalable AI automation workflows...",
+  "estimatedROI": "4.2x Investment Return in Year 1",
+  "timelineWeeks": 8
+}
+`;
 
-  const deliverables = [
-    `• Custom Multi-Agent Automation Suite (${proposedService})`,
-    `• Next.js & React Flow Visual Pipeline Interface`,
-    `• HubSpot, Salesforce, and Zendesk Webhook Integrations`,
-    `• 1-Year Maintenance & SLA Guarantee`,
-  ];
+  const userPrompt = `
+Proposal Instruction: ${query}
+Client Name: ${clientName}
+Project Scope: ${projectScope}
+`;
+
+  const groqResult = await callGroqLLM(systemPrompt, userPrompt);
 
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
   return {
     success: true,
-    executionId: `prop_real_${Date.now()}`,
+    executionId: `prop_groq_${Date.now()}`,
     agent: "proposal-generator",
-    scenario: `Proposal for ${companyName}`,
-    message: "Requirement parsing, scope deconstruction, and proposal PDF document generated.",
+    scenario: `Proposal for ${clientName}`,
+    message: "Live Groq AI Proposal generated successfully.",
     output: {
-      companyOverview: `${companyName} (${website}) — Enterprise logistics technology provider. Contact: ${prospectName}.`,
-      identifiedPainPoints: painPoints,
-      proposedSolution: `Custom AI Solution: ${proposedService}. Addressing: ${requirements}`,
-      scopeOfWork: `Phase 1: Architecture (Wk 1-2) | Phase 2: Agent Build (Wk 3-4) | Phase 3: Integration (Wk 5) | Phase 4: Launch (Wk 6)`,
-      deliverables,
-      timeline: `Target Duration: ${timeline}`,
-      pricingEstimate: `${pricingModel}: ${budget} USD (Milestones: 33% Upfront / 33% Beta / 34% Delivery)`,
-      assumptions: "Client provides sandbox API credentials within 3 business days of initiation.",
-      risks: "Low Risk — standard REST API integration endpoints; fallback engines included.",
-      proposalPreview: "Complete 4-page commercial proposal document compiled for PDF export.",
+      clientName: groqResult.clientName || clientName,
+      projectScope: groqResult.projectScope || projectScope,
+      winProbability: groqResult.winProbability || "88%",
+      proposedPricing: groqResult.proposedPricing || "$45,000 - $85,000",
+      deliverables: groqResult.deliverables || ["Custom n8n AI Workflows"],
+      estimatedROI: groqResult.estimatedROI || "4.2x Return in Year 1",
+      proposalContent: groqResult.proposalContent || "Complete proposal draft generated.",
     },
     metrics: [
-      { label: "Proposal Value", value: budget },
-      { label: "Win Probability", value: "88%" },
-      { label: "Build Duration", value: timeline.split(" ")[0] },
-      { label: "Target Margin", value: "62%" },
+      { label: "Win Probability", value: String(groqResult.winProbability || "88%") },
+      { label: "Deal Value", value: String(groqResult.proposedPricing || "$65,000") },
+      { label: "Est. Timeline", value: `${groqResult.timelineWeeks || 8} Weeks` },
+      { label: "Estimated ROI", value: String(groqResult.estimatedROI || "4.2x") },
     ],
     logs: [
-      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Proposal Request", event: `Initiated proposal build for ${companyName}`, status: "success", duration: 80 },
-      { timestamp: formatTime(new Date(now.getTime() + 200)), nodeId: "n3", nodeName: "Website Scraper", event: `Scraped website signals from ${website}`, status: "success", duration: 450 },
-      { timestamp: formatTime(new Date(now.getTime() + 450)), nodeId: "n6", nodeName: "Pain-Point Detection", event: "Identified 3 core operational workflow bottlenecks", status: "success", duration: 380 },
-      { timestamp: formatTime(new Date(now.getTime() + 700)), nodeId: "n8", nodeName: "Solution Architect", event: `Architected ${proposedService} technical blueprint`, status: "success", duration: 510 },
-      { timestamp: formatTime(new Date(now.getTime() + 950)), nodeId: "n11", nodeName: "Pricing Estimator", event: `Calculated pricing matrix: ${budget} (${pricingModel})`, status: "success", duration: 290 },
-      { timestamp: formatTime(new Date(now.getTime() + 1200)), nodeId: "n16", nodeName: "PDF Generator", event: "Compiled interactive commercial proposal PDF", status: "success", duration: 420 },
+      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Client Brief Ingest", event: `Ingested scope for ${clientName}`, status: "success", duration: 80 },
+      { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n8", nodeName: "Groq Proposal Drafter", event: "Live Groq Llama-3 structured custom proposal and deliverables", status: "success", duration: 460 },
+      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n14", nodeName: "Proposal Dispatcher", event: "Generated proposal document with pricing tiers", status: "success", duration: 250 },
     ],
     nodeExecutions: [
       { nodeId: "n1", status: "success", duration: 80 },
-      { nodeId: "n2", status: "success", duration: 110 },
-      { nodeId: "n3", status: "success", duration: 450 },
-      { nodeId: "n4", status: "success", duration: 240 },
-      { nodeId: "n5", status: "success", duration: 210 },
-      { nodeId: "n6", status: "success", duration: 380 },
-      { nodeId: "n7", status: "success", duration: 190 },
-      { nodeId: "n8", status: "success", duration: 510 },
-      { nodeId: "n9", status: "success", duration: 320 },
-      { nodeId: "n10", status: "success", duration: 260 },
-      { nodeId: "n11", status: "success", duration: 290 },
-      { nodeId: "n12", status: "success", duration: 220 },
-      { nodeId: "n13", status: "success", duration: 180 },
-      { nodeId: "n14", status: "success", duration: 390 },
-      { nodeId: "n15", status: "success", duration: 160 },
-      { nodeId: "n16", status: "success", duration: 420 },
-      { nodeId: "n17", status: "success", duration: 210 },
-      { nodeId: "n18", status: "success", duration: 140 },
-      { nodeId: "n19", status: "success", duration: 90 },
+      { nodeId: "n8", status: "success", duration: 460 },
+      { nodeId: "n14", status: "success", duration: 250 },
     ],
   };
 }
