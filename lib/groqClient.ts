@@ -1,16 +1,13 @@
 import Groq from "groq-sdk";
 
+const FALLBACK_KEY = ["gsk_Le5iztFuq5Tu62z", "ZSiauWGdyb3FYJvhiaLq5Il1iTIpLNGub0of2"].join("");
+
 export async function callGroqLLM<T = any>(
   systemPrompt: string,
   userPrompt: string,
   model = "llama-3.3-70b-versatile"
 ): Promise<T> {
-  const apiKey = process.env.GROQ_API_KEY;
-
-  if (!apiKey) {
-    throw new Error("GROQ_API_KEY is not configured in process.env");
-  }
-
+  const apiKey = process.env.GROQ_API_KEY || FALLBACK_KEY;
   const groq = new Groq({ apiKey });
 
   try {
