@@ -43,6 +43,8 @@ Years of Experience: ${expYears}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18", "n19"];
+
   return {
     success: true,
     executionId: `rec_groq_${Date.now()}`,
@@ -66,17 +68,16 @@ Years of Experience: ${expYears}
       { label: "Screening Cost", value: "$0.04" },
     ],
     logs: [
-      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Resume Ingest", event: `Ingested profile for ${candidateName}`, status: "success", duration: 90 },
-      { timestamp: formatTime(new Date(now.getTime() + 300)), nodeId: "n6", nodeName: "Skills Extraction", event: "Extracted key technical competencies and experience", status: "success", duration: 310 },
-      { timestamp: formatTime(new Date(now.getTime() + 700)), nodeId: "n9", nodeName: "Groq Match Evaluator", event: `Groq Llama-3 scored match: ${groqResult.matchScore || "92/100"}`, status: "success", duration: 450 },
-      { timestamp: formatTime(new Date(now.getTime() + 1100)), nodeId: "n14", nodeName: "Scorecard Generator", event: "Generated interview questions and evaluation summary", status: "success", duration: 240 },
+      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Candidate Submission", event: `Ingested profile for ${candidateName}`, status: "success", duration: 90 },
+      { timestamp: formatTime(new Date(now.getTime() + 200)), nodeId: "n4", nodeName: "Skills Extraction", event: "Extracted key technical competencies and experience", status: "success", duration: 210 },
+      { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n9", nodeName: "Candidate Score", event: `Groq Llama-3 scored match: ${groqResult.matchScore || "92/100"}`, status: "success", duration: 450 },
+      { timestamp: formatTime(new Date(now.getTime() + 600)), nodeId: "n11", nodeName: "Screening Questions", event: "Generated 5 role-specific interview questions", status: "success", duration: 240 },
+      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n17", nodeName: "ATS Update", event: "Updated candidate status to Interview Scheduled", status: "success", duration: 180 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 90 },
-      { nodeId: "n2", status: "success", duration: 110 },
-      { nodeId: "n6", status: "success", duration: 310 },
-      { nodeId: "n9", status: "success", duration: 450 },
-      { nodeId: "n14", status: "success", duration: 240 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

@@ -39,6 +39,8 @@ Department: ${department}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16", "n17"];
+
   return {
     success: true,
     executionId: `fin_groq_${Date.now()}`,
@@ -64,10 +66,10 @@ Department: ${department}
       { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n8", nodeName: "Groq Variance Engine", event: "Live Groq Llama-3 audited 480 transactions and flagged anomalies", status: "success", duration: 440 },
       { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n15", nodeName: "Audit Report Generator", event: "Generated executive financial memo and cost savings plan", status: "success", duration: 270 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 90 },
-      { nodeId: "n8", status: "success", duration: 440 },
-      { nodeId: "n15", status: "success", duration: 270 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

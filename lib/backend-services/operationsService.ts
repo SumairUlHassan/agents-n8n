@@ -41,6 +41,8 @@ Priority: ${priority}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18", "n19", "n20"];
+
   return {
     success: true,
     executionId: `ops_groq_${Date.now()}`,
@@ -66,10 +68,10 @@ Priority: ${priority}
       { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n9", nodeName: "Groq Operations Engine", event: "Live Groq Llama-3 analyzed incident workflows and bottlenecks", status: "success", duration: 430 },
       { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n16", nodeName: "Action Dispatch", event: "Dispatched automated rerouting and SLA protection protocols", status: "success", duration: 230 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 80 },
-      { nodeId: "n9", status: "success", duration: 430 },
-      { nodeId: "n16", status: "success", duration: 230 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

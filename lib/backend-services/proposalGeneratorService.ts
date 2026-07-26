@@ -39,6 +39,8 @@ Project Scope: ${projectScope}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18", "n19"];
+
   return {
     success: true,
     executionId: `prop_groq_${Date.now()}`,
@@ -65,10 +67,10 @@ Project Scope: ${projectScope}
       { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n8", nodeName: "Groq Proposal Drafter", event: "Live Groq Llama-3 structured custom proposal and deliverables", status: "success", duration: 460 },
       { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n14", nodeName: "Proposal Dispatcher", event: "Generated proposal document with pricing tiers", status: "success", duration: 250 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 80 },
-      { nodeId: "n8", status: "success", duration: 460 },
-      { nodeId: "n14", status: "success", duration: 250 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

@@ -48,6 +48,8 @@ Outreach Focus: ${outreachInstruction}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18", "n19", "n20"];
+
   return {
     success: true,
     executionId: `sdr_groq_${Date.now()}`,
@@ -73,34 +75,17 @@ Outreach Focus: ${outreachInstruction}
       { label: "Est. Deal Value", value: String(groqResult.estDealValue || "$22,500") },
     ],
     logs: [
-      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Chat Webhook", event: `Initiated live query '${query}' for ${industry}`, status: "success", duration: 80 },
+      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Campaign Trigger", event: `Initiated live query '${query}' for ${industry}`, status: "success", duration: 80 },
       { timestamp: formatTime(new Date(now.getTime() + 300)), nodeId: "n3", nodeName: "Lead Source Search", event: `Discovered leads in ${location} via live web search`, status: "success", duration: 340 },
       { timestamp: formatTime(new Date(now.getTime() + 600)), nodeId: "n6", nodeName: "ICP Qualification", event: `Groq evaluated fit score: ${groqResult.qualificationScore || "92/100"}`, status: "success", duration: 410 },
       { timestamp: formatTime(new Date(now.getTime() + 900)), nodeId: "n8", nodeName: "Personalization Agent", event: "Live Groq Llama-3 70B generated personalized hook", status: "success", duration: 380 },
       { timestamp: formatTime(new Date(now.getTime() + 1200)), nodeId: "n9", nodeName: "Email Generator", event: "Drafted personalized outreach email sequence", status: "success", duration: 290 },
       { timestamp: formatTime(new Date(now.getTime() + 1500)), nodeId: "n18", nodeName: "CRM Update", event: `Pushed prospect record to CRM with score ${groqResult.qualificationScore}`, status: "success", duration: 210 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 80 },
-      { nodeId: "n2", status: "success", duration: 110 },
-      { nodeId: "n3", status: "success", duration: 340 },
-      { nodeId: "n4", status: "success", duration: 220 },
-      { nodeId: "n5", status: "success", duration: 310 },
-      { nodeId: "n6", status: "success", duration: 410 },
-      { nodeId: "n7", status: "success", duration: 150 },
-      { nodeId: "n8", status: "success", duration: 380 },
-      { nodeId: "n9", status: "success", duration: 290 },
-      { nodeId: "n10", status: "success", duration: 180 },
-      { nodeId: "n11", status: "success", duration: 210 },
-      { nodeId: "n12", status: "success", duration: 140 },
-      { nodeId: "n13", status: "success", duration: 250 },
-      { nodeId: "n14", status: "success", duration: 120 },
-      { nodeId: "n15", status: "skipped", duration: 0 },
-      { nodeId: "n16", status: "success", duration: 190 },
-      { nodeId: "n17", status: "success", duration: 240 },
-      { nodeId: "n18", status: "success", duration: 210 },
-      { nodeId: "n19", status: "success", duration: 160 },
-      { nodeId: "n20", status: "success", duration: 100 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

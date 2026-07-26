@@ -38,6 +38,8 @@ Time Frame: ${timeFrame}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16"];
+
   return {
     success: true,
     executionId: `exec_groq_${Date.now()}`,
@@ -58,13 +60,13 @@ Time Frame: ${timeFrame}
     ],
     logs: [
       { timestamp: formatTime(now), nodeId: "n1", nodeName: "Executive Command Ingest", event: `Received command '${query}' for ${executive}`, status: "success", duration: 80 },
-      { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n7", nodeName: "Groq Schedule Optimizer", event: "Live Groq Llama-3 re-prioritized executive inbox and calendar", status: "success", duration: 410 },
-      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n12", nodeName: "Executive Brief Generator", event: "Generated executive summary and action items", status: "success", duration: 250 },
+      { timestamp: formatTime(new Date(now.getTime() + 300)), nodeId: "n7", nodeName: "Groq Schedule Optimizer", event: "Live Groq Llama-3 re-prioritized executive inbox and calendar", status: "success", duration: 410 },
+      { timestamp: formatTime(new Date(now.getTime() + 600)), nodeId: "n12", nodeName: "Executive Brief Generator", event: "Generated executive summary and action items", status: "success", duration: 250 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 80 },
-      { nodeId: "n7", status: "success", duration: 410 },
-      { nodeId: "n12", status: "success", duration: 250 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

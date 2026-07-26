@@ -35,6 +35,8 @@ Customer Tier: ${tier}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16"];
+
   return {
     success: true,
     executionId: `supp_groq_${Date.now()}`,
@@ -57,24 +59,16 @@ Customer Tier: ${tier}
       { label: "Deflection Rate", value: "88%" },
     ],
     logs: [
-      { timestamp: formatTime(now), nodeId: "chat-webhook", nodeName: "Chat Webhook", event: `Received live question '${query}'`, status: "success", duration: 70 },
-      { timestamp: formatTime(new Date(now.getTime() + 200)), nodeId: "fetch-kb", nodeName: "Fetch Knowledge Base", event: "Pulled knowledge base context via live RAG query", status: "success", duration: 320 },
-      { timestamp: formatTime(new Date(now.getTime() + 500)), nodeId: "score-retrieve", nodeName: "Score & Retrieve", event: `Matched ${groqResult.articlesMatched || 4} context documents`, status: "success", duration: 280 },
-      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "call-groq", nodeName: "Call Groq LLM", event: `Executed Llama 3 70B inference with confidence ${groqResult.confidenceScore || "94%"}`, status: "success", duration: 420 },
-      { timestamp: formatTime(new Date(now.getTime() + 1100)), nodeId: "respond-success", nodeName: "Respond Success", event: "Dispatched grounded response with source citations", status: "success", duration: 150 },
+      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Support Webhook Ingest", event: `Received live question '${query}'`, status: "success", duration: 70 },
+      { timestamp: formatTime(new Date(now.getTime() + 200)), nodeId: "n5", nodeName: "Knowledge Base Search", event: "Pulled knowledge base context via live RAG query", status: "success", duration: 320 },
+      { timestamp: formatTime(new Date(now.getTime() + 500)), nodeId: "n7", nodeName: "Confidence Score", event: `Matched ${groqResult.articlesMatched || 4} context documents with score ${groqResult.confidenceScore || "94%"}`, status: "success", duration: 280 },
+      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n9", nodeName: "Grounded Answer Synthesizer", event: "Executed Groq Llama 3 70B inference with source citations", status: "success", duration: 420 },
+      { timestamp: formatTime(new Date(now.getTime() + 1100)), nodeId: "n16", nodeName: "Response", event: "Dispatched grounded response with source citations", status: "success", duration: 150 },
     ],
-    nodeExecutions: [
-      { nodeId: "chat-webhook", status: "success", duration: 70 },
-      { nodeId: "validate-input", status: "success", duration: 90 },
-      { nodeId: "has-valid", status: "success", duration: 110 },
-      { nodeId: "fetch-kb", status: "success", duration: 320 },
-      { nodeId: "score-retrieve", status: "success", duration: 280 },
-      { nodeId: "confident", status: "success", duration: 140 },
-      { nodeId: "build-prompt", status: "success", duration: 180 },
-      { nodeId: "call-groq", status: "success", duration: 420 },
-      { nodeId: "parse-llm", status: "success", duration: 160 },
-      { nodeId: "log-chat", status: "success", duration: 210 },
-      { nodeId: "respond-success", status: "success", duration: 150 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }

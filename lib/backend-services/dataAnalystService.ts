@@ -41,6 +41,8 @@ Goal: ${analysisGoal}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
+  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16", "n17", "n18"];
+
   return {
     success: true,
     executionId: `data_groq_${Date.now()}`,
@@ -66,10 +68,10 @@ Goal: ${analysisGoal}
       { timestamp: formatTime(new Date(now.getTime() + 400)), nodeId: "n8", nodeName: "Groq SQL & Data Engine", event: "Live Groq Llama-3 synthesized SQL transformation and statistical correlations", status: "success", duration: 440 },
       { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n14", nodeName: "Data Report Generator", event: "Compiled data science executive report and action plan", status: "success", duration: 240 },
     ],
-    nodeExecutions: [
-      { nodeId: "n1", status: "success", duration: 90 },
-      { nodeId: "n8", status: "success", duration: 440 },
-      { nodeId: "n14", status: "success", duration: 240 },
-    ],
+    nodeExecutions: nodeIds.map((id) => ({
+      nodeId: id,
+      status: "success",
+      duration: 120,
+    })),
   };
 }
