@@ -26,13 +26,13 @@ export function AgentOutputPanel({
 }: AgentOutputPanelProps) {
   if (isRunning) {
     return (
-      <div className="rounded-2xl border border-indigo-500/30 bg-[#0F172A]/90 p-6 text-center shadow-xl backdrop-blur-md space-y-4">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 animate-pulse">
+      <div className="rounded-2xl border border-[rgba(31,122,224,0.3)] bg-white p-6 text-center shadow-sm space-y-4">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[rgba(31,122,224,0.1)] text-[#1f7ae0] border border-[rgba(31,122,224,0.3)] animate-pulse">
           <Sparkles className="h-6 w-6 animate-spin" />
         </div>
         <div>
-          <h3 className="text-base font-bold text-white">Agent Execution In Progress...</h3>
-          <p className="text-xs text-slate-400 mt-1">
+          <h3 className="text-base font-bold text-[#1a2530]">Agent Execution In Progress...</h3>
+          <p className="text-xs text-[#667080] mt-1">
             Running multi-step visual workflow pipeline and generating output artifacts.
           </p>
         </div>
@@ -48,15 +48,15 @@ export function AgentOutputPanel({
       {metrics && metrics.length > 0 && <AgentMetrics metrics={metrics} />}
 
       {/* Main Output Cards Container */}
-      <div className="rounded-2xl border border-slate-800 bg-[#0F172A] p-5 sm:p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#dde3ea] bg-white p-5 sm:p-6 shadow-sm space-y-4">
+        <div className="flex items-center justify-between border-b border-[#dde3ea] pb-3">
           <div className="flex items-center space-x-2">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+            <CheckCircle2 className="h-4 w-4 text-[#12946a]" />
+            <h3 className="text-sm font-bold text-[#1a2530] uppercase tracking-wider">
               Agent Execution Output
             </h3>
           </div>
-          <span className="text-xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+          <span className="text-xs font-mono text-[#12946a] bg-[rgba(18,148,106,0.1)] border border-[rgba(18,148,106,0.3)] px-2.5 py-0.5 rounded-full font-semibold">
             Completed (200 OK)
           </span>
         </div>
@@ -69,16 +69,16 @@ export function AgentOutputPanel({
             return (
               <div
                 key={key}
-                className="rounded-xl border border-slate-800/80 bg-slate-900/60 p-3 space-y-1 hover:border-slate-700 transition-colors"
+                className="rounded-xl border border-[#dde3ea] bg-[#f4f6f9] p-3 space-y-1 hover:border-[#1f7ae0]/50 transition-colors"
               >
-                <div className="font-mono text-[11px] text-indigo-400 uppercase tracking-wider">
+                <div className="font-mono text-[11px] text-[#1f7ae0] uppercase tracking-wider font-semibold">
                   {key.replace(/([A-Z])/g, " $1").trim()}
                 </div>
-                <div className="text-slate-200 font-sans leading-relaxed">
+                <div className="text-[#1a2530] font-sans leading-relaxed">
                   {Array.isArray(val) ? (
                     <ul className="list-disc list-inside space-y-0.5 mt-1">
                       {val.map((item, idx) => (
-                        <li key={idx} className="text-slate-300">
+                        <li key={idx} className="text-[#1a2530]">
                           {String(item)}
                         </li>
                       ))}
@@ -97,9 +97,9 @@ export function AgentOutputPanel({
       {generatedArtifact && <ArtifactPreview artifact={generatedArtifact} />}
 
       {/* Final Trust Statement */}
-      <div className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-4 text-center">
-        <div className="inline-flex items-center space-x-2 text-xs text-slate-400">
-          <ShieldCheck className="h-4 w-4 text-indigo-400 shrink-0" />
+      <div className="rounded-xl border border-[#dde3ea] bg-white p-4 text-center shadow-sm">
+        <div className="inline-flex items-center space-x-2 text-xs text-[#667080]">
+          <ShieldCheck className="h-4 w-4 text-[#1f7ae0] shrink-0" />
           <span>{trustStatement}</span>
         </div>
       </div>

@@ -28,21 +28,21 @@ export function AgentSwitcher({ currentSlug }: { currentSlug?: string }) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#0B0F17]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-[#dde3ea] bg-white/90 backdrop-blur-md shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Brand Logo & Back link */}
         <div className="flex items-center space-x-4">
           <Link
             href="/agents"
-            className="flex items-center space-x-2 text-slate-300 transition-colors hover:text-white"
+            className="flex items-center space-x-2 text-[#1a2530] transition-colors hover:text-[#1f7ae0]"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30">
-              <Zap className="h-5 w-5 fill-indigo-500/30" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[rgba(31,122,224,0.1)] text-[#1f7ae0] border border-[rgba(31,122,224,0.3)]">
+              <Zap className="h-5 w-5 fill-[#1f7ae0]" />
             </div>
             <div>
-              <span className="text-base font-bold tracking-wide text-white">Elixr Co.</span>
-              <span className="hidden sm:inline-block ml-2 text-xs font-mono px-2 py-0.5 rounded bg-slate-800/80 text-indigo-400 border border-indigo-500/20">
-                AI Platform
+              <span className="text-base font-bold tracking-wide text-[#1a2530]">Elixr Co.</span>
+              <span className="hidden sm:inline-block ml-2 text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-[#1f7ae0] border border-[#dde3ea]">
+                n8n Platform
               </span>
             </div>
           </Link>
@@ -52,16 +52,16 @@ export function AgentSwitcher({ currentSlug }: { currentSlug?: string }) {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center space-x-2 rounded-lg border border-slate-700/80 bg-slate-900/90 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-200 shadow-sm hover:border-slate-600 hover:bg-slate-800 transition-all"
+            className="flex items-center space-x-2 rounded-lg border border-[#dde3ea] bg-white px-3 py-1.5 text-xs sm:text-sm font-semibold text-[#1a2530] shadow-sm hover:border-[#1f7ae0] hover:bg-slate-50 transition-all"
           >
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-[#12946a] animate-pulse" />
             <span className="max-w-[140px] sm:max-w-[220px] truncate">{currentAgent.title}</span>
-            <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+            <ChevronDown className={`h-4 w-4 text-[#667080] transition-transform ${isOpen ? "rotate-180" : ""}`} />
           </button>
 
           {isOpen && (
-            <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 sm:w-80 rounded-xl border border-slate-800 bg-[#0F172A] p-2 shadow-2xl z-50">
-              <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800/80 mb-1">
+            <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 sm:w-80 rounded-xl border border-[#dde3ea] bg-white p-2 shadow-2xl z-50">
+              <div className="px-3 py-2 text-xs font-semibold text-[#667080] uppercase tracking-wider border-b border-[#dde3ea] mb-1">
                 Select AI Agent Demo
               </div>
               <div className="max-h-72 overflow-y-auto space-y-0.5">
@@ -72,12 +72,12 @@ export function AgentSwitcher({ currentSlug }: { currentSlug?: string }) {
                     onClick={() => setIsOpen(false)}
                     className={`flex items-center justify-between rounded-lg px-3 py-2 text-xs sm:text-sm transition-colors ${
                       agent.slug === currentSlug
-                        ? "bg-indigo-600/20 text-indigo-300 font-semibold border border-indigo-500/30"
-                        : "text-slate-300 hover:bg-slate-800/80 hover:text-white"
+                        ? "bg-[rgba(31,122,224,0.1)] text-[#1f7ae0] font-semibold border border-[rgba(31,122,224,0.3)]"
+                        : "text-[#1a2530] hover:bg-slate-100"
                     }`}
                   >
                     <span className="truncate">{agent.title}</span>
-                    <span className="text-[10px] font-mono text-slate-500">/{agent.slug}</span>
+                    <span className="text-[10px] font-mono text-[#667080]">/{agent.slug}</span>
                   </Link>
                 ))}
               </div>
@@ -89,23 +89,23 @@ export function AgentSwitcher({ currentSlug }: { currentSlug?: string }) {
         <div className="flex items-center space-x-2">
           <Link
             href="/agents"
-            className="hidden md:flex items-center space-x-1 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+            className="hidden md:flex items-center space-x-1 rounded-lg border border-[#dde3ea] bg-white px-3 py-1.5 text-xs font-semibold text-[#1a2530] hover:bg-slate-100 transition-colors"
           >
             <LayoutGrid className="h-3.5 w-3.5" />
-            <span>All Agents</span>
+            <span>All Demos</span>
           </Link>
 
-          <div className="flex items-center space-x-1 border-l border-slate-800 pl-2">
+          <div className="flex items-center space-x-1 border-l border-[#dde3ea] pl-2">
             {prevAgent ? (
               <Link
                 href={`/agents/${prevAgent.slug}`}
                 title={`Previous: ${prevAgent.title}`}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-800 bg-slate-900/80 text-slate-400 hover:border-slate-700 hover:text-white transition-colors"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#dde3ea] bg-white text-[#667080] hover:border-[#1f7ae0] hover:text-[#1f7ae0] transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-900 bg-slate-950 text-slate-700 opacity-40 cursor-not-allowed">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-400 opacity-50 cursor-not-allowed">
                 <ArrowLeft className="h-4 w-4" />
               </div>
             )}
@@ -114,12 +114,12 @@ export function AgentSwitcher({ currentSlug }: { currentSlug?: string }) {
               <Link
                 href={`/agents/${nextAgent.slug}`}
                 title={`Next: ${nextAgent.title}`}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-800 bg-slate-900/80 text-slate-400 hover:border-slate-700 hover:text-white transition-colors"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#dde3ea] bg-white text-[#667080] hover:border-[#1f7ae0] hover:text-[#1f7ae0] transition-colors"
               >
                 <ArrowRight className="h-4 w-4" />
               </Link>
             ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-900 bg-slate-950 text-slate-700 opacity-40 cursor-not-allowed">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-400 opacity-50 cursor-not-allowed">
                 <ArrowRight className="h-4 w-4" />
               </div>
             )}

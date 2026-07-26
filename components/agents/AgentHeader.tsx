@@ -22,30 +22,30 @@ export function AgentHeader({
       {/* Title & Live Status */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1a2530] flex items-center gap-2">
             {title}
           </h1>
-          <p className="mt-1 text-sm sm:text-base text-slate-400 max-w-3xl leading-relaxed">
+          <p className="mt-1 text-sm sm:text-base text-[#667080] max-w-3xl leading-relaxed">
             {subtitle}
           </p>
         </div>
 
-        {/* Live Indicator */}
+        {/* n8n Live Green Badge */}
         <div className="shrink-0">
-          <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3 py-1 text-xs font-medium text-emerald-400 shadow-sm backdrop-blur-sm">
+          <div className="inline-flex items-center space-x-2 rounded-full border border-[rgba(18,148,106,0.3)] bg-[rgba(18,148,106,0.1)] px-3 py-1 text-xs font-semibold text-[#12946a] shadow-sm backdrop-blur-sm">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#12946a] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#12946a]"></span>
             </span>
-            <span>{statusText}</span>
+            <span>{statusText || "● Live — connected to production n8n pipeline"}</span>
           </div>
         </div>
       </div>
 
-      {/* Example Prompt Buttons */}
+      {/* Predefined Prompts Chips */}
       <div className="pt-2">
-        <div className="flex items-center space-x-2 text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
-          <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+        <div className="flex items-center space-x-2 text-xs font-semibold text-[#667080] mb-2 uppercase tracking-wider">
+          <Sparkles className="h-3.5 w-3.5 text-[#1f7ae0]" />
           <span>Predefined Scenarios / Prompts:</span>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -53,9 +53,9 @@ export function AgentHeader({
             <button
               key={i}
               onClick={() => onSelectPrompt(prompt)}
-              className="inline-flex items-center space-x-1.5 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-1.5 text-xs text-slate-300 hover:border-indigo-500/50 hover:bg-indigo-950/30 hover:text-indigo-300 transition-all cursor-pointer shadow-sm group"
+              className="inline-flex items-center space-x-1.5 rounded-full border border-[rgba(31,122,224,0.25)] bg-[rgba(31,122,224,0.08)] px-3.5 py-1.5 text-xs font-medium text-[#1f7ae0] hover:bg-[rgba(31,122,224,0.16)] transition-all cursor-pointer shadow-sm group"
             >
-              <Terminal className="h-3 w-3 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+              <Terminal className="h-3 w-3 text-[#1f7ae0] group-hover:scale-110 transition-transform" />
               <span>{prompt}</span>
             </button>
           ))}

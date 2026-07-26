@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, Copy, Check, FileText, Sparkles } from "lucide-react";
+import { Download, Copy, Check, Sparkles } from "lucide-react";
 
 interface ArtifactPreviewProps {
   artifact?: {
@@ -37,15 +37,15 @@ export function ArtifactPreview({ artifact }: ArtifactPreviewProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-indigo-500/30 bg-[#0F172A] p-5 shadow-2xl space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+    <div className="rounded-2xl border border-[#dde3ea] bg-white p-5 shadow-sm space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#dde3ea] pb-3">
         <div className="flex items-center space-x-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[rgba(31,122,224,0.1)] text-[#1f7ae0] border border-[rgba(31,122,224,0.3)]">
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-white">{artifact.title}</h3>
-            <span className="text-[10px] font-mono text-indigo-400">Generated Business Artifact</span>
+            <h3 className="text-sm font-bold text-[#1a2530]">{artifact.title}</h3>
+            <span className="text-[10px] font-mono text-[#1f7ae0]">Generated Business Artifact</span>
           </div>
         </div>
 
@@ -53,15 +53,15 @@ export function ArtifactPreview({ artifact }: ArtifactPreviewProps) {
         <div className="flex items-center space-x-2">
           <button
             onClick={handleCopy}
-            className="inline-flex items-center space-x-1 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs text-slate-300 hover:border-slate-600 hover:text-white transition-colors"
+            className="inline-flex items-center space-x-1 rounded-lg border border-[#dde3ea] bg-white px-3 py-1.5 text-xs text-[#1a2530] hover:border-[#1f7ae0] transition-colors"
           >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? <Check className="h-3.5 w-3.5 text-[#12946a]" /> : <Copy className="h-3.5 w-3.5" />}
             <span>{copied ? "Copied!" : "Copy"}</span>
           </button>
 
           <button
             onClick={handleDownload}
-            className="inline-flex items-center space-x-1.5 rounded-lg border border-indigo-500/40 bg-indigo-600/30 px-3 py-1.5 text-xs font-semibold text-indigo-300 hover:bg-indigo-600/50 transition-colors shadow-sm"
+            className="inline-flex items-center space-x-1.5 rounded-lg border border-[rgba(31,122,224,0.3)] bg-[rgba(31,122,224,0.1)] px-3 py-1.5 text-xs font-semibold text-[#1f7ae0] hover:bg-[rgba(31,122,224,0.2)] transition-colors shadow-sm"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Download {artifact.downloadableFormat?.toUpperCase() || "DOC"}</span>
@@ -70,7 +70,7 @@ export function ArtifactPreview({ artifact }: ArtifactPreviewProps) {
       </div>
 
       {/* Artifact Document Content */}
-      <div className="rounded-xl border border-slate-800 bg-[#090D16] p-4 text-xs font-mono text-slate-300 leading-relaxed max-h-72 overflow-y-auto whitespace-pre-wrap">
+      <div className="rounded-xl border border-[#dde3ea] bg-[#f4f6f9] p-4 text-xs font-mono text-[#1a2530] leading-relaxed max-h-72 overflow-y-auto whitespace-pre-wrap">
         {artifact.content}
       </div>
     </div>

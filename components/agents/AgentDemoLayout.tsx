@@ -112,7 +112,7 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[#f4f6f9] text-[#1a2530] flex flex-col font-sans selection:bg-[#1f7ae0] selection:text-white">
       {/* Navigation & Switcher */}
       <AgentSwitcher currentSlug={agent.slug} />
 
@@ -168,13 +168,13 @@ export function AgentDemoLayout({ agent }: AgentDemoLayoutProps) {
       />
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-[#090D16] py-6 text-center text-xs text-slate-500">
+      <footer className="border-t border-[#dde3ea] bg-white py-6 text-center text-xs text-[#667080]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
-            © 2026 <span className="font-semibold text-slate-300">Elixr Co.</span> — Multi-Agent AI Automation Suite
+            © 2026 <span className="font-semibold text-[#1a2530]">Elixr Co.</span> — Multi-Agent AI Automation Suite
           </div>
-          <div className="font-mono text-[11px] text-slate-600">
-            100% Real Server Backend Integration | Next.js API Routes
+          <div className="font-mono text-[11px] text-[#667080]">
+            Every message is scored, grounded against the knowledge base, and logged for audit.
           </div>
         </div>
       </footer>

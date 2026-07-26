@@ -14,13 +14,13 @@ export function AgentMetrics({ metrics }: AgentMetricsProps) {
       {metrics.map((metric, idx) => (
         <div
           key={idx}
-          className="rounded-xl border border-slate-800 bg-[#0F172A]/80 p-4 shadow-lg backdrop-blur-sm space-y-1 hover:border-slate-700 transition-colors"
+          className="rounded-xl border border-[#dde3ea] bg-white p-4 shadow-sm space-y-1 hover:border-[#1f7ae0]/50 transition-colors"
         >
-          <div className="flex items-center justify-between text-xs text-slate-400">
+          <div className="flex items-center justify-between text-xs text-[#667080]">
             <span>{metric.label}</span>
-            <TrendingUp className="h-3.5 w-3.5 text-indigo-400 opacity-70" />
+            <TrendingUp className="h-3.5 w-3.5 text-[#1f7ae0] opacity-70" />
           </div>
-          <div className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-mono text-emerald-400">
+          <div className="text-xl sm:text-2xl font-extrabold text-[#12946a] tracking-tight font-mono">
             {metric.value}
           </div>
         </div>

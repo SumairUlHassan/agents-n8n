@@ -21,7 +21,6 @@ export function AgentInputPanel({
 }: AgentInputPanelProps) {
   const [chatInput, setChatInput] = useState(selectedPrompt || "");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [fileAttached, setFileAttached] = useState(false);
 
   // Initialize form state
   const initialFormValues: Record<string, string> = {};
@@ -35,7 +34,6 @@ export function AgentInputPanel({
   };
 
   const handleUseSampleFile = () => {
-    setFileAttached(true);
     const mockFileName =
       agent.slug === "recruiting"
         ? "David_Chen_Senior_AI_Engineer_Resume.pdf"
@@ -66,18 +64,18 @@ export function AgentInputPanel({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-[#0F172A]/90 p-5 sm:p-6 shadow-xl backdrop-blur-md space-y-5">
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+    <div className="rounded-2xl border border-[#dde3ea] bg-white p-5 sm:p-6 shadow-sm space-y-5">
+      <div className="flex items-center justify-between border-b border-[#dde3ea] pb-3">
         <div className="flex items-center space-x-2">
-          <Layers className="h-4 w-4 text-indigo-400" />
-          <h2 className="text-sm font-semibold text-white tracking-wide uppercase">
+          <Layers className="h-4 w-4 text-[#1f7ae0]" />
+          <h2 className="text-xs font-bold text-[#1a2530] tracking-wider uppercase">
             Interaction Control Panel
           </h2>
         </div>
         <button
           onClick={onReset}
           disabled={isRunning}
-          className="flex items-center space-x-1 text-xs text-slate-400 hover:text-white transition-colors disabled:opacity-50"
+          className="flex items-center space-x-1 text-xs text-[#667080] hover:text-[#1f7ae0] transition-colors disabled:opacity-50"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${isRunning ? "animate-spin" : ""}`} />
           <span>Reset Demo</span>
@@ -90,9 +88,9 @@ export function AgentInputPanel({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {agent.fields.map((field) => (
               <div key={field.id} className={field.type === "textarea" ? "sm:col-span-2" : ""}>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-[#667080] mb-1">
                   {field.label}
-                  {field.required && <span className="text-rose-400 ml-1">*</span>}
+                  {field.required && <span className="text-[#d64545] ml-1">*</span>}
                 </label>
                 {field.type === "textarea" ? (
                   <textarea
@@ -101,14 +99,14 @@ export function AgentInputPanel({
                     onChange={(e) => handleFormChange(field.id, e.target.value)}
                     placeholder={field.placeholder}
                     disabled={isRunning}
-                    className="w-full rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all disabled:opacity-50"
+                    className="w-full rounded-lg border border-[#dde3ea] bg-white px-3 py-2 text-xs text-[#1a2530] placeholder-slate-400 focus:border-[#1f7ae0] focus:outline-none focus:ring-1 focus:ring-[#1f7ae0] transition-all disabled:opacity-50"
                   />
                 ) : field.type === "select" ? (
                   <select
                     value={formValues[field.id] || ""}
                     onChange={(e) => handleFormChange(field.id, e.target.value)}
                     disabled={isRunning}
-                    className="w-full rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-2 text-xs text-white focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all disabled:opacity-50"
+                    className="w-full rounded-lg border border-[#dde3ea] bg-white px-3 py-2 text-xs text-[#1a2530] focus:border-[#1f7ae0] focus:outline-none focus:ring-1 focus:ring-[#1f7ae0] transition-all disabled:opacity-50"
                   >
                     {field.options?.map((opt) => (
                       <option key={opt} value={opt}>
@@ -122,12 +120,12 @@ export function AgentInputPanel({
                       type="button"
                       onClick={handleUseSampleFile}
                       disabled={isRunning}
-                      className="rounded-lg border border-indigo-500/40 bg-indigo-950/40 px-3 py-2 text-xs font-medium text-indigo-300 hover:bg-indigo-900/50 transition-all"
+                      className="rounded-lg border border-[rgba(31,122,224,0.3)] bg-[rgba(31,122,224,0.08)] px-3 py-2 text-xs font-medium text-[#1f7ae0] hover:bg-[rgba(31,122,224,0.16)] transition-all"
                     >
                       Attach Sample File
                     </button>
                     {selectedFile && (
-                      <span className="text-xs text-emerald-400 flex items-center gap-1">
+                      <span className="text-xs text-[#12946a] flex items-center gap-1 font-medium">
                         <CheckCircle2 className="h-3.5 w-3.5" />
                         {selectedFile.name}
                       </span>
@@ -140,7 +138,7 @@ export function AgentInputPanel({
                     onChange={(e) => handleFormChange(field.id, e.target.value)}
                     placeholder={field.placeholder}
                     disabled={isRunning}
-                    className="w-full rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all disabled:opacity-50"
+                    className="w-full rounded-lg border border-[#dde3ea] bg-white px-3 py-2 text-xs text-[#1a2530] placeholder-slate-400 focus:border-[#1f7ae0] focus:outline-none focus:ring-1 focus:ring-[#1f7ae0] transition-all disabled:opacity-50"
                   />
                 )}
               </div>
@@ -151,12 +149,12 @@ export function AgentInputPanel({
         {/* File Drag & Drop Upload Zone if inputType is upload */}
         {agent.inputType === "upload" && (
           <div className="space-y-3">
-            <div className="rounded-xl border-2 border-dashed border-slate-700 bg-slate-900/60 p-6 text-center hover:border-indigo-500/50 transition-colors">
-              <Upload className="mx-auto h-8 w-8 text-indigo-400 mb-2" />
-              <p className="text-xs text-slate-300 font-medium">
+            <div className="rounded-xl border-2 border-dashed border-[#dde3ea] bg-[#f4f6f9] p-6 text-center hover:border-[#1f7ae0] transition-colors">
+              <Upload className="mx-auto h-8 w-8 text-[#1f7ae0] mb-2" />
+              <p className="text-xs text-[#1a2530] font-semibold">
                 Drag and drop your file here, or click to browse
               </p>
-              <p className="text-[11px] text-slate-500 mt-1">
+              <p className="text-[11px] text-[#667080] mt-1">
                 Supported formats: {agent.supportedFiles?.join(", ") || "CSV, XLSX, PDF"} (Max 25MB)
               </p>
 
@@ -165,7 +163,7 @@ export function AgentInputPanel({
                   type="button"
                   onClick={handleUseSampleFile}
                   disabled={isRunning}
-                  className="inline-flex items-center space-x-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-3 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/50 transition-all"
+                  className="inline-flex items-center space-x-1.5 rounded-lg border border-[rgba(18,148,106,0.3)] bg-[rgba(18,148,106,0.08)] px-3 py-1.5 text-xs font-semibold text-[#12946a] hover:bg-[rgba(18,148,106,0.16)] transition-all"
                 >
                   <FileText className="h-3.5 w-3.5" />
                   <span>
@@ -176,12 +174,12 @@ export function AgentInputPanel({
             </div>
 
             {selectedFile && (
-              <div className="flex items-center justify-between rounded-lg border border-emerald-500/30 bg-emerald-950/20 px-3 py-2 text-xs text-emerald-300">
+              <div className="flex items-center justify-between rounded-lg border border-[rgba(18,148,106,0.3)] bg-[rgba(18,148,106,0.06)] px-3 py-2 text-xs text-[#12946a] font-medium">
                 <span className="flex items-center space-x-2 truncate">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-[#12946a] shrink-0" />
                   <span className="font-mono truncate">{selectedFile.name}</span>
                 </span>
-                <span className="text-[10px] text-slate-400 font-mono">
+                <span className="text-[10px] text-[#667080] font-mono">
                   {(selectedFile.size / 1024).toFixed(1)} KB
                 </span>
               </div>
@@ -197,13 +195,13 @@ export function AgentInputPanel({
             onChange={(e) => setChatInput(e.target.value)}
             placeholder={agent.placeholder || "Enter execution instructions..."}
             disabled={isRunning}
-            className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all disabled:opacity-50"
+            className="flex-1 rounded-xl border border-[#dde3ea] bg-white px-4 py-2.5 text-sm text-[#1a2530] placeholder-slate-400 focus:border-[#1f7ae0] focus:outline-none focus:ring-1 focus:ring-[#1f7ae0] transition-all disabled:opacity-50 shadow-sm"
           />
 
           <button
             type="submit"
             disabled={isRunning}
-            className="inline-flex items-center justify-center space-x-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+            className="inline-flex items-center justify-center space-x-2 rounded-xl bg-[#1f7ae0] hover:bg-[#1864b8] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
           >
             {isRunning ? (
               <>

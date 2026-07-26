@@ -2,7 +2,7 @@
 
 import { Handle, Position } from "@xyflow/react";
 import { WorkflowNodeConfig } from "@/types/workflows";
-import { Zap, Bot, GitBranch, CheckCircle2, Circle, AlertCircle, XCircle, ArrowRight } from "lucide-react";
+import { Zap, Code2, Globe, GitBranch, Clock, CheckCircle2, Circle, AlertCircle, XCircle } from "lucide-react";
 
 interface WorkflowNodeProps {
   data: WorkflowNodeConfig & {
@@ -13,78 +13,100 @@ interface WorkflowNodeProps {
 export function WorkflowNode({ data }: WorkflowNodeProps) {
   const status = data.status || "idle";
 
+  // Determine n8n kind
+  const kind = data.kind || (data.type === "trigger" ? "trigger" : data.type === "decision" ? "if" : data.type === "action" ? "http" : "code");
+
+  const getKindLeftBorder = () => {
+    switch (kind) {
+      case "trigger":
+        return "border-l-[3.5px] border-l-[#ff6b8a]";
+      case "code":
+        return "border-l-[3.5px] border-l-[#a986ff]";
+      case "http":
+        return "border-l-[3.5px] border-l-[#4fb3ff]";
+      case "if":
+        return "border-l-[3.5px] border-l-[#2ecf9a]";
+      case "schedule":
+        return "border-l-[3.5px] border-l-[#8b98a5]";
+      default:
+        return "border-l-[3.5px] border-l-[#1f7ae0]";
+    }
+  };
+
   const getStatusBadge = () => {
     switch (status) {
       case "active":
         return (
           <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1f7ae0] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#1f7ae0]"></span>
           </span>
         );
       case "success":
-        return <CheckCircle2 className="h-4 w-4 text-emerald-400" />;
+        return <CheckCircle2 className="h-4 w-4 text-[#12946a]" />;
       case "warning":
-        return <AlertCircle className="h-4 w-4 text-amber-400" />;
+        return <AlertCircle className="h-4 w-4 text-amber-500" />;
       case "failed":
-        return <XCircle className="h-4 w-4 text-rose-400" />;
+        return <XCircle className="h-4 w-4 text-rose-500" />;
       case "skipped":
-        return <Circle className="h-3 w-3 text-slate-600 fill-slate-700" />;
+        return <Circle className="h-3 w-3 text-slate-400 fill-slate-300" />;
       default:
-        return <Circle className="h-3 w-3 text-slate-600" />;
+        return <Circle className="h-3 w-3 text-slate-300" />;
     }
   };
 
   const getTypeIcon = () => {
-    switch (data.type) {
+    switch (kind) {
       case "trigger":
-        return <Zap className="h-3.5 w-3.5 text-amber-400" />;
-      case "agent":
-        return <Bot className="h-3.5 w-3.5 text-indigo-400" />;
-      case "decision":
-        return <GitBranch className="h-3.5 w-3.5 text-cyan-400" />;
-      case "output":
-        return <ArrowRight className="h-3.5 w-3.5 text-emerald-400" />;
+        return <Zap className="h-3.5 w-3.5 text-[#ff6b8a]" />;
+      case "code":
+        return <Code2 className="h-3.5 w-3.5 text-[#a986ff]" />;
+      case "http":
+        return <Globe className="h-3.5 w-3.5 text-[#4fb3ff]" />;
+      case "if":
+        return <GitBranch className="h-3.5 w-3.5 text-[#2ecf9a]" />;
+      case "schedule":
+        return <Clock className="h-3.5 w-3.5 text-[#8b98a5]" />;
       default:
-        return <Zap className="h-3.5 w-3.5 text-slate-400" />;
+        return <Zap className="h-3.5 w-3.5 text-slate-500" />;
     }
   };
 
-  const getBorderColor = () => {
+  const getStatusStyles = () => {
     switch (status) {
       case "active":
-        return "border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] ring-1 ring-indigo-500";
+        return "border-[#1f7ae0] ring-2 ring-[#1f7ae0]/40 shadow-[0_0_16px_rgba(31,122,224,0.25)] bg-white";
       case "success":
-        return "border-emerald-500/60 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
+        return "border-[#12946a] bg-[#e8fbf3]";
       case "warning":
-        return "border-amber-500/60";
+        return "border-amber-400 bg-amber-50/50";
       case "failed":
-        return "border-rose-500/60";
+        return "border-rose-400 bg-rose-50/50";
       case "skipped":
-        return "border-slate-800 opacity-50";
+        return "border-slate-200 bg-slate-50 opacity-60";
       default:
-        return "border-slate-800 hover:border-slate-700";
+        return "border-[#dde3ea] bg-white hover:border-slate-300";
     }
   };
 
   return (
     <div
       onClick={() => data.onSelectNode && data.onSelectNode(data)}
-      className={`group relative min-w-[180px] max-w-[220px] rounded-xl border bg-[#0F172A] p-3 shadow-lg transition-all cursor-pointer ${getBorderColor()}`}
+      className={`group relative min-w-[160px] max-w-[210px] rounded-lg border p-2.5 shadow-sm transition-all cursor-pointer ${getKindLeftBorder()} ${getStatusStyles()}`}
     >
       {/* React Flow Handles */}
       <Handle
         type="target"
         position={Position.Left}
-        className="!bg-slate-700 !w-2.5 !h-2.5 !border-slate-900"
+        className="!bg-[#94a3b8] !w-2.5 !h-2.5 !border-white"
       />
 
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center space-x-2">
-          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-slate-900 border border-slate-800">
+      <div className="flex items-start justify-between gap-1.5">
+        <div className="flex items-center space-x-1.5">
+          <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-slate-100 border border-slate-200">
             {getTypeIcon()}
           </div>
-          <div className="font-semibold text-xs text-white truncate max-w-[120px]">
+          <div className="font-semibold text-xs text-[#1a2530] truncate max-w-[110px]">
             {data.label}
           </div>
         </div>
@@ -92,19 +114,19 @@ export function WorkflowNode({ data }: WorkflowNodeProps) {
         <div className="shrink-0 mt-0.5">{getStatusBadge()}</div>
       </div>
 
-      <div className="mt-2 flex items-center justify-between border-t border-slate-800/80 pt-2 text-[10px]">
-        <span className="font-mono text-slate-400 truncate max-w-[120px]">
+      <div className="mt-1.5 flex items-center justify-between border-t border-slate-200/80 pt-1.5 text-[10px]">
+        <span className="font-mono text-[#667080] truncate max-w-[110px]">
           {data.modelOrTool}
         </span>
-        <span className="capitalize text-slate-500 font-mono text-[9px]">
-          {data.type}
+        <span className="uppercase text-[#667080] font-mono text-[9px] font-semibold">
+          {kind}
         </span>
       </div>
 
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-slate-700 !w-2.5 !h-2.5 !border-slate-900"
+        className="!bg-[#94a3b8] !w-2.5 !h-2.5 !border-white"
       />
     </div>
   );

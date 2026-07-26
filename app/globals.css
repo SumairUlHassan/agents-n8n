@@ -4,74 +4,85 @@
 
 @layer base {
   :root {
-    --background: 11 15 23;
-    --foreground: 241 245 249;
+    --bg: #f4f6f9;
+    --panel: #ffffff;
+    --panel-2: #eef1f5;
+    --border: #dde3ea;
+    --text: #1a2530;
+    --muted: #667080;
+    --accent: #1f7ae0;
+    --accent-2: #12946a;
+    --danger: #d64545;
+    --user-bubble: #1f6feb;
+    --bot-bubble: #eef1f5;
   }
   
   body {
-    background-color: #0B0F17;
-    color: #F1F5F9;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(180deg, #f4f6f9 0%, #ffffff 100%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
     overflow-x: hidden;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Clean Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0D131F;
+  background: #f4f6f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94a3b8;
 }
 
-/* React Flow custom dark overrides */
+/* React Flow custom light/n8n overrides */
 .react-flow__background {
-  background-color: #0B0F17 !important;
+  background-color: #eef1f5 !important;
 }
 
 .react-flow__controls {
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5) !important;
-  border: 1px solid #1E293B !important;
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.08) !important;
+  border: 1px solid #dde3ea !important;
   border-radius: 8px !important;
   overflow: hidden;
-  background: #111827 !important;
+  background: #ffffff !important;
 }
 
 .react-flow__controls-button {
-  background: #111827 !important;
-  border-bottom: 1px solid #1E293B !important;
-  fill: #94A3B8 !important;
-  color: #94A3B8 !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #dde3ea !important;
+  fill: #667080 !important;
+  color: #667080 !important;
   width: 28px !important;
   height: 28px !important;
 }
 
 .react-flow__controls-button:hover {
-  background: #1F2937 !important;
-  fill: #F1F5F9 !important;
-  color: #F1F5F9 !important;
+  background: #f8fafc !important;
+  fill: #1f7ae0 !important;
+  color: #1f7ae0 !important;
 }
 
 .react-flow__edge-path {
-  stroke: #334155;
+  stroke: #c3ccd6;
   stroke-width: 2px;
 }
 
 .react-flow__edge.animated .react-flow__edge-path {
   stroke-dasharray: 5;
   animation: dashdraw 0.5s linear infinite;
-  stroke: #6366F1;
+  stroke: #1f7ae0;
+  stroke-width: 2.5px;
 }
 
 @keyframes dashdraw {

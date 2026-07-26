@@ -1,10 +1,13 @@
 export type NodeStatus = "idle" | "active" | "success" | "warning" | "failed" | "skipped";
 export type NodeType = "trigger" | "action" | "decision" | "agent" | "output";
 
+export type NodeKind = "trigger" | "code" | "http" | "if" | "schedule";
+
 export interface WorkflowNodeConfig {
   id: string;
   label: string;
   type: NodeType;
+  kind?: NodeKind;
   status?: NodeStatus;
   description: string;
   modelOrTool: string;

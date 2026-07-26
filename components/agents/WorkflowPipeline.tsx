@@ -13,7 +13,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { WorkflowNodeConfig } from "@/types/workflows";
 import { WorkflowNode } from "./WorkflowNode";
-import { Activity } from "lucide-react";
+import { Wrench } from "lucide-react";
 
 interface WorkflowPipelineProps {
   workflowNodes: WorkflowNodeConfig[];
@@ -70,8 +70,8 @@ export function WorkflowPipeline({
           target: targetId,
           animated: isExecuted || node.id === activeNodeId,
           style: {
-            stroke: isExecuted ? "#6366F1" : "#334155",
-            strokeWidth: isExecuted ? 2.5 : 1.5,
+            stroke: isExecuted ? "#1f7ae0" : "#c3ccd6",
+            strokeWidth: isExecuted ? 2.5 : 1.6,
           },
         });
       });
@@ -93,23 +93,44 @@ export function WorkflowPipeline({
   );
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-[#0B0F17] p-5 shadow-xl space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
-        <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <Activity className="h-4 w-4 text-emerald-400" />
-            <span>Live Workflow Pipeline</span>
-          </h2>
-          <p className="text-xs text-slate-400 mt-0.5 max-w-2xl">
-            {workflowDescription}
-          </p>
+    <div className="rounded-2xl border border-[#dde3ea] bg-white p-5 shadow-sm space-y-4">
+      {/* Header & Legend */}
+      <div className="space-y-3 border-b border-[#dde3ea] pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 className="text-base font-bold text-[#1a2530] flex items-center gap-2">
+              <Wrench className="h-4 w-4 text-[#1f7ae0]" />
+              <span>Live Workflow Pipeline</span>
+            </h2>
+            <p className="text-xs text-[#667080] mt-0.5 max-w-2xl leading-relaxed">
+              {workflowDescription}
+            </p>
+          </div>
         </div>
-        <div className="text-[11px] font-mono text-slate-500 bg-slate-900 px-3 py-1 rounded-md border border-slate-800 shrink-0">
-          Pan: Drag | Zoom: Scroll | Node Details: Click Node
+
+        {/* n8n Node Legend */}
+        <div className="flex flex-wrap items-center gap-4 text-xs text-[#667080] pt-1">
+          <span className="inline-flex items-center gap-1.5 font-medium">
+            <span className="h-2.5 w-2.5 rounded-sm bg-[#ff6b8a]" />
+            <span>Trigger / Response</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 font-medium">
+            <span className="h-2.5 w-2.5 rounded-sm bg-[#a986ff]" />
+            <span>Code</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 font-medium">
+            <span className="h-2.5 w-2.5 rounded-sm bg-[#4fb3ff]" />
+            <span>HTTP Request</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 font-medium">
+            <span className="h-2.5 w-2.5 rounded-sm bg-[#2ecf9a]" />
+            <span>If / Branch</span>
+          </span>
         </div>
       </div>
 
-      <div className="h-[360px] sm:h-[420px] w-full rounded-xl border border-slate-800/80 bg-[#090D16] overflow-hidden relative">
+      {/* Viewport Canvas */}
+      <div className="h-[380px] sm:h-[440px] w-full rounded-xl border border-[#dde3ea] bg-[#eef1f5] overflow-hidden relative shadow-inner">
         <ReactFlow
           nodes={initialNodes}
           edges={initialEdges}
@@ -122,9 +143,14 @@ export function WorkflowPipeline({
           minZoom={0.2}
           maxZoom={1.5}
         >
-          <Background color="#1E293B" gap={20} size={1} />
-          <Controls className="!top-3 !left-3 !bottom-auto" />
+          <Background color="#cbd5e1" gap={20} size={1} />
+          <Controls className="!top-3 !right-3 !left-auto !bottom-auto" />
         </ReactFlow>
+
+        {/* Hint Tag */}
+        <div className="absolute bottom-3 left-3 z-10 text-[11px] font-sans text-[#667080] bg-white/90 border border-[#dde3ea] px-3 py-1 rounded-md shadow-sm">
+          Drag to pan · Scroll to zoom · Click a node for details
+        </div>
       </div>
     </div>
   );
