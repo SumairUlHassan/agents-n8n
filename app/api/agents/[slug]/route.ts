@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAgentBySlug } from "@/config/agents";
 import { executeWebhookIfAvailable } from "@/lib/webhooks/client";
 
-// Import 10 real backend processing services
+// Import 11 real backend processing services
 import { processSdrAgent } from "@/lib/backend-services/sdrService";
 import { processSupportAgent } from "@/lib/backend-services/supportService";
 import { processRecruitingAgent } from "@/lib/backend-services/recruitingService";
@@ -13,6 +13,7 @@ import { processProposalGeneratorAgent } from "@/lib/backend-services/proposalGe
 import { processMarketingAgent } from "@/lib/backend-services/marketingService";
 import { processResearchAgent } from "@/lib/backend-services/researchService";
 import { processDataAnalystAgent } from "@/lib/backend-services/dataAnalystService";
+import { processBusinessCommandCenterAgent } from "@/lib/backend-services/businessCommandCenterService";
 
 export async function POST(
   req: NextRequest,
@@ -71,6 +72,9 @@ export async function POST(
         break;
       case "data-analyst":
         response = await processDataAnalystAgent(queryText, formValues);
+        break;
+      case "business-command-center":
+        response = await processBusinessCommandCenterAgent(queryText, formValues);
         break;
       default:
         return NextResponse.json({ success: false, error: "Unsupported agent service" }, { status: 400 });

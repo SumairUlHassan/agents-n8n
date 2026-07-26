@@ -36,6 +36,7 @@ export interface AgentConfig {
   title: string;
   subtitle: string;
   statusText: string;
+  badgeText?: string;
   inputType: InputType;
   placeholder?: string;
   submitLabel: string;

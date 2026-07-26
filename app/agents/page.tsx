@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AGENTS_LIST } from "@/config/agents";
-import { Zap, ArrowRight, ShieldCheck, Activity } from "lucide-react";
+import { Zap, ArrowRight, ShieldCheck, Activity, Cpu } from "lucide-react";
 
 export const metadata = {
   title: "AI Automation Demos | Elixr Co.",
@@ -8,6 +8,9 @@ export const metadata = {
 };
 
 export default function AgentDirectoryPage() {
+  const regularAgents = AGENTS_LIST.filter((a) => a.slug !== "business-command-center");
+  const commandCenterAgent = AGENTS_LIST.find((a) => a.slug === "business-command-center");
+
   return (
     <div className="min-h-screen bg-[#f4f6f9] text-[#1a2530] flex flex-col font-sans selection:bg-[#1f7ae0] selection:text-white">
       {/* Navbar */}
@@ -22,7 +25,7 @@ export default function AgentDirectoryPage() {
 
           <div className="inline-flex items-center space-x-2 rounded-full border border-[rgba(18,148,106,0.3)] bg-[rgba(18,148,106,0.1)] px-3 py-1 text-xs text-[#12946a] font-semibold">
             <span className="h-2 w-2 rounded-full bg-[#12946a] animate-pulse" />
-            <span>10 Live n8n Workflows</span>
+            <span>11 Live n8n Workflows</span>
           </div>
         </div>
       </header>
@@ -43,9 +46,9 @@ export default function AgentDirectoryPage() {
           </div>
         </div>
 
-        {/* 10 Agent Cards Grid */}
+        {/* 10 Specialized Agent Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {AGENTS_LIST.map((agent, index) => (
+          {regularAgents.map((agent, index) => (
             <div
               key={agent.slug}
               className="group relative flex flex-col justify-between rounded-2xl border border-[#dde3ea] bg-white p-6 shadow-sm hover:border-[#1f7ae0] hover:-translate-y-1 transition-all duration-200"
@@ -87,6 +90,79 @@ export default function AgentDirectoryPage() {
             </div>
           ))}
         </div>
+
+        {/* AI Business Command Center Card (At the Bottom of All Agents) */}
+        {commandCenterAgent && (
+          <div className="pt-4">
+            <div className="group relative flex flex-col md:flex-row items-stretch justify-between rounded-2xl border-2 border-[#1f7ae0]/60 bg-gradient-to-br from-white via-white to-[#f0f7ff] p-7 shadow-md hover:border-[#1f7ae0] hover:shadow-xl transition-all duration-300 gap-6">
+              <div className="space-y-4 max-w-3xl flex-1">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="font-mono text-xs text-[#1f7ae0] font-bold px-3 py-1 rounded-md bg-[rgba(31,122,224,0.12)] border border-[rgba(31,122,224,0.3)] flex items-center gap-1.5">
+                    <Cpu className="h-3.5 w-3.5 text-[#1f7ae0]" />
+                    <span>Agent 01</span>
+                  </span>
+                  <div className="flex items-center space-x-1.5 text-xs font-semibold text-[#12946a] bg-[rgba(18,148,106,0.1)] px-3 py-1 rounded-full border border-[rgba(18,148,106,0.3)]">
+                    <Activity className="h-3.5 w-3.5" />
+                    <span>Live</span>
+                  </div>
+                  <span className="text-xs font-mono text-[#667080] font-semibold bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                    Master Supervisor Orchestrator
+                  </span>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-[#1a2530] group-hover:text-[#1f7ae0] transition-colors flex items-center gap-2">
+                    {commandCenterAgent.title}
+                  </h2>
+                  <p className="mt-1 text-sm font-semibold text-[#1f7ae0]">
+                    {commandCenterAgent.subtitle}
+                  </p>
+                  <p className="mt-2.5 text-xs sm:text-sm text-[#475569] leading-relaxed">
+                    A single autonomous agent that handles sales, customer support, recruitment, operations, marketing, finance, research, proposals, executive assistance, and data analysis from one unified workspace.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+                  <div className="bg-white/80 border border-[#dde3ea] p-2.5 rounded-lg shadow-2xs">
+                    <span className="text-[#667080] block text-[10px]">Sales & Outbound</span>
+                    <span className="font-semibold text-[#1a2530]">Prospects & Booking</span>
+                  </div>
+                  <div className="bg-white/80 border border-[#dde3ea] p-2.5 rounded-lg shadow-2xs">
+                    <span className="text-[#667080] block text-[10px]">Support & HR</span>
+                    <span className="font-semibold text-[#1a2530]">RAG Docs & Screening</span>
+                  </div>
+                  <div className="bg-white/80 border border-[#dde3ea] p-2.5 rounded-lg shadow-2xs">
+                    <span className="text-[#667080] block text-[10px]">Finance & Ops</span>
+                    <span className="font-semibold text-[#1a2530]">Audits & SLA Reroute</span>
+                  </div>
+                  <div className="bg-white/80 border border-[#dde3ea] p-2.5 rounded-lg shadow-2xs">
+                    <span className="text-[#667080] block text-[10px]">Research & Marketing</span>
+                    <span className="font-semibold text-[#1a2530]">Proposals & Analytics</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between items-start md:items-end border-t md:border-t-0 md:border-l border-[#dde3ea] pt-5 md:pt-0 md:pl-7 shrink-0 min-w-[200px]">
+                <div className="space-y-1 text-left md:text-right">
+                  <span className="text-2xl font-extrabold text-[#1a2530] block font-mono">
+                    180+ Nodes
+                  </span>
+                  <span className="text-xs text-[#667080] block">
+                    Connected Pipeline
+                  </span>
+                </div>
+
+                <Link
+                  href={`/agents/${commandCenterAgent.slug}`}
+                  className="mt-6 md:mt-0 w-full md:w-auto inline-flex items-center justify-center space-x-2 rounded-xl bg-[#1f7ae0] hover:bg-[#1864b8] px-6 py-3 text-sm font-bold text-white shadow-md hover:shadow-lg transition-all group-hover:scale-105"
+                >
+                  <span>Open Command Center</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Footer */}

@@ -9,6 +9,7 @@ import { proposalGeneratorAgentConfig } from "./proposalGenerator";
 import { marketingAgentConfig } from "./marketing";
 import { researchAgentConfig } from "./research";
 import { dataAnalystAgentConfig } from "./dataAnalyst";
+import { businessCommandCenterAgentConfig } from "./businessCommandCenter";
 
 export const AGENTS_LIST: AgentConfig[] = [
   sdrAgentConfig,
@@ -21,6 +22,7 @@ export const AGENTS_LIST: AgentConfig[] = [
   marketingAgentConfig,
   researchAgentConfig,
   dataAnalystAgentConfig,
+  businessCommandCenterAgentConfig,
 ];
 
 export function getAgentBySlug(slug: string): AgentConfig | undefined {
