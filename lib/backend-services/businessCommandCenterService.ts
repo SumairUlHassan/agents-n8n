@@ -14,12 +14,12 @@ You operate as an autonomous orchestrator governing 10 specialized sub-agents:
 1. AI SDR Agent (Sales & Prospecting)
 2. Customer Support RAG Agent
 3. Recruiting & HR Agent
-4. Executive Assistant Agent
-5. Financial Analyst Agent
-6. Operations Manager Agent
-7. Proposal Generator Agent
-8. Marketing Agent
-9. Autonomous Research Agent
+4. Operations Manager Agent
+5. Executive Assistant Agent
+6. Financial Analyst Agent
+7. Marketing Agent
+8. Autonomous Research Agent
+9. Proposal Generator Agent
 10. Data Analyst Agent
 
 Analyze the user's business command, determine which sub-agent domains are required, and synthesize a comprehensive multi-department executive response.
@@ -60,7 +60,12 @@ Execution Mode: ${executionMode}
   const now = new Date();
   const formatTime = (d: Date) => d.toTimeString().split(" ")[0];
 
-  const nodeIds = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n11", "n12", "n13", "n14"];
+  const nodeIds = [
+    "n1", "n2", "n3", "n4", "n5",
+    "n6_1", "n6_2", "n7_1", "n7_2", "n8_1", "n8_2", "n9_1", "n9_2", "n10_1", "n10_2",
+    "n11_1", "n11_2", "n12_1", "n12_2", "n13_1", "n13_2", "n14_1", "n14_2", "n15_1", "n15_2",
+    "n16", "n17", "n18"
+  ];
 
   return {
     success: true,
@@ -87,12 +92,12 @@ Execution Mode: ${executionMode}
       { label: "Time Saved", value: String(groqResult.timeSavedHours || "14.5 Hours") },
     ],
     logs: [
-      { timestamp: formatTime(now), nodeId: "n1", nodeName: "Command Gateway", event: `Ingested command '${query}'`, status: "success", duration: 80 },
-      { timestamp: formatTime(new Date(now.getTime() + 200)), nodeId: "n3", nodeName: "Switch: Supervisor Router", event: "Live Groq Llama-3 analyzed intent & delegated tasks to specialized sub-agents", status: "success", duration: 380 },
-      { timestamp: formatTime(new Date(now.getTime() + 500)), nodeId: "n4", nodeName: "Delegate: SDR & Marketing", event: "Executed SDR & Marketing sub-agent workflows", status: "success", duration: 410 },
-      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n5", nodeName: "Delegate: Finance & Ops", event: "Executed Financial & Operations sub-agent workflows", status: "success", duration: 390 },
-      { timestamp: formatTime(new Date(now.getTime() + 1100)), nodeId: "n11", nodeName: "Master Response Synthesizer", event: "Synthesized multi-department deliverables into master executive report", status: "success", duration: 490 },
-      { timestamp: formatTime(new Date(now.getTime() + 1400)), nodeId: "n13", nodeName: "Executive Slack Brief", event: "Dispatched consolidated brief to executive channel", status: "success", duration: 210 },
+      { timestamp: formatTime(now), nodeId: "n1", nodeName: "New Request", event: `Ingested master command '${query}'`, status: "success", duration: 80 },
+      { timestamp: formatTime(new Date(now.getTime() + 200)), nodeId: "n3", nodeName: "Intent Classifier", event: "Live Groq Llama-3 analyzed intent & delegated tasks to 10 parallel sub-agents", status: "success", duration: 380 },
+      { timestamp: formatTime(new Date(now.getTime() + 500)), nodeId: "n5", nodeName: "Supervisor Agent", event: "Master Supervisor orchestrated SDR, Support, HR, Ops, EA, Finance, Marketing, Research & Data Science pipelines", status: "success", duration: 410 },
+      { timestamp: formatTime(new Date(now.getTime() + 800)), nodeId: "n6_1", nodeName: "SDR Agent", event: "Executed SDR prospect research & email drafting", status: "success", duration: 390 },
+      { timestamp: formatTime(new Date(now.getTime() + 1100)), nodeId: "n16", nodeName: "Response Synthesizer", event: "Synthesized multi-department deliverables into master executive report", status: "success", duration: 490 },
+      { timestamp: formatTime(new Date(now.getTime() + 1400)), nodeId: "n18", nodeName: "Send Response", event: "Dispatched consolidated payload to user interface & webhooks", status: "success", duration: 210 },
     ],
     nodeExecutions: nodeIds.map((id) => ({
       nodeId: id,
