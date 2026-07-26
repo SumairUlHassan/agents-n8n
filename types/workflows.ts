@@ -15,6 +15,7 @@ export interface WorkflowNodeConfig {
   outputSample?: Record<string, unknown>;
   position: { x: number; y: number };
   targetIds?: string[]; // Connections to next nodes
+  targetLabels?: Record<string, string>; // Labels for connection edges (e.g. true/false/loop)
 }
 
 export interface ExecutionLogEntry {

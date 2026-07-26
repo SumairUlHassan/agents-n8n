@@ -44,9 +44,9 @@ export function WorkflowPipeline({
       else if (completedNodeIds.includes(n.id)) status = "success";
       else if (skippedNodeIds.includes(n.id)) status = "skipped";
 
-      // Ensure crisp 50px horizontal gap between 150px n8n nodes
+      // Scale positions for clean n8n node layout with 50px horizontal gaps and distinct branch Y levels
       const posX = n.position.x > 0 ? n.position.x * 1.25 : index * 200 + 40;
-      const posY = n.position.y;
+      const posY = n.position.y || 150;
 
       return {
         id: n.id,
@@ -69,11 +69,17 @@ export function WorkflowPipeline({
           completedNodeIds.includes(node.id) &&
           (completedNodeIds.includes(targetId) || targetId === activeNodeId);
 
+        const edgeLabel = node.targetLabels?.[targetId];
+
         edges.push({
           id: `e-${node.id}-${targetId}`,
           source: node.id,
           target: targetId,
           type: "smoothstep",
+          label: edgeLabel,
+          labelStyle: { fill: "#475569", fontSize: 10, fontWeight: 600 },
+          labelBgStyle: { fill: "#ffffff", fillOpacity: 0.95, rx: 4, ry: 4 },
+          labelBgPadding: [4, 2],
           animated: isExecuted || node.id === activeNodeId,
           style: {
             stroke: isExecuted ? "#1f7ae0" : "#c3ccd6",
@@ -82,8 +88,8 @@ export function WorkflowPipeline({
           markerEnd: {
             type: MarkerType.ArrowClosed,
             color: isExecuted ? "#1f7ae0" : "#c3ccd6",
-            width: 14,
-            height: 14,
+            width: 12,
+            height: 12,
           },
         });
       });
@@ -136,7 +142,7 @@ export function WorkflowPipeline({
           </span>
           <span className="inline-flex items-center gap-1.5 font-medium">
             <span className="h-2.5 w-2.5 rounded-sm bg-[#2ecf9a]" />
-            <span>If / Branch</span>
+            <span>If / Branch / Switch</span>
           </span>
         </div>
       </div>
